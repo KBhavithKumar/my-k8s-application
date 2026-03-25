@@ -17,4 +17,4 @@ spec:
         image: sanjayamaravadi/my-k8s-application:latest  # your Docker Hub image
         imagePullPolicy: Never
         ports:
-        - containerPort: 8080
+        - containerPort: 8000
