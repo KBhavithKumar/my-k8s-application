@@ -7,6 +7,6 @@ spec:
   selector:
     app: my-k8s-application
   ports:
-  - port: 8080
-    targetPort: 8080
+  - port: 8000
+    targetPort: 8000
     nodePort: 32005
