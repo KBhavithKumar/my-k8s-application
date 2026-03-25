@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-node-application
+  name: my-k8s-application
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: my-node-application
+      app: my-k8s-application
   template:
     metadata:
       labels:
-        app: my-node-application
+        app: my-k8s-application
     spec:
       containers:
-      - name: my-node-application
-        image: sanjayamaravadi/my-node-application:latest  # your Docker Hub image
+      - name: my-k8s-application
+        image: sanjayamaravadi/my-k8s-application:latest  # your Docker Hub image
         imagePullPolicy: Never
         ports:
         - containerPort: 8080
