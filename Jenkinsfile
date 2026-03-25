@@ -20,14 +20,14 @@ pipeline {
             steps {
                 sh '''
                 docker build -t my-k8s-application:${BUILD_NUMBER} .
-                docker tag my-k8s-application:${BUILD_NUMBER} SanjayAmaravadi/my-k8s-application:latest
+                docker tag my-k8s-application:${BUILD_NUMBER} sanjayamaravadi/my-k8s-application:latest
                 '''
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push SanjayAmaravadi/my-k8s-application:latest'
+                sh 'docker push sanjayamaravadi/my-k8s-application:latest'
             }
         }
 
