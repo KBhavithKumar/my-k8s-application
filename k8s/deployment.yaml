@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: my-k8s-application
-        image: sanjayamaravadi/my-k8s-application:latest  # your Docker Hub image
+        image: devopslab2026/my-k8s-application:latest  # your Docker Hub image
         imagePullPolicy: Never
         ports:
         - containerPort: 8000
