@@ -6,7 +6,7 @@ pipeline {
         stage('Checkout from GitHub') {
             steps {
                 git branch: 'master',
-                    url: 'https://github.com/SanjayAmaravadi/my-k8s-application.git'
+                    url: 'https://github.com/KBhavithKumar/my-k8s-application.git'
             }
         }
 
@@ -20,14 +20,14 @@ pipeline {
             steps {
                 sh '''
                 docker build -t my-k8s-application:${BUILD_NUMBER} .
-                docker tag my-k8s-application:${BUILD_NUMBER} sanjayamaravadi/my-k8s-application:latest
+                docker tag my-k8s-application:${BUILD_NUMBER} devopslab2026/my-k8s-application:latest
                 '''
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                sh 'docker push sanjayamaravadi/my-k8s-application:latest'
+                sh 'docker push devopslab2026/my-k8s-application:latest'
             }
         }
 
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 sh '''
                 # Load latest image into Minikube
-                minikube image load sanjayamaravadi/my-k8s-application:latest
+                minikube image load devopslab2026/my-k8s-application:latest
 
                 # Apply manifests
                 minikube kubectl -- apply -f k8s/deployment.yaml
