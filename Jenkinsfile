@@ -30,7 +30,7 @@ pipeline {
         stage('Building Docker Image and Deploy to Kubernetes') {
             steps {
                 sh '''
-                env $(minikube docker-env)
+                eval $(minikube docker-env)
                 docker build -t my-k8s-application:${BUILD_NUMBER}
                 docker tag my-k8s-application:${BUILD_NUMBER} my-k8s-application:latest
 
