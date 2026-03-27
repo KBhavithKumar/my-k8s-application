@@ -19,15 +19,15 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh '''
-                sudo docker build -t my-k8s-application:${BUILD_NUMBER} .
-                sudo docker tag my-k8s-application:${BUILD_NUMBER} devopslab2026/my-k8s-application:latest
+                docker build -t my-k8s-application:${BUILD_NUMBER} .
+                docker tag my-k8s-application:${BUILD_NUMBER} devopslab2026/my-k8s-application:latest
                 '''
             }
         }
 
         stage('Push Docker Image') {
             steps {
-                sh 'sudo docker push devopslab2026/my-k8s-application:latest'
+                sh 'docker push devopslab2026/my-k8s-application:latest'
             }
         }
 
