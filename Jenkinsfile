@@ -15,22 +15,7 @@ pipeline {
                 sh 'npm install'
             }
         }
-
-        stage('Build Docker Image') {
-            steps {
-                sh '''
-                docker build -t my-k8s-application:${BUILD_NUMBER} .
-                docker tag my-k8s-application:${BUILD_NUMBER} devopslab2026/my-k8s-application:latest
-                '''
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                sh 'docker push devopslab2026/my-k8s-application:latest'
-            }
-        }
-
+        
         stage('Start Minikube if not running') {
             steps {
                 sh '''
@@ -42,11 +27,12 @@ pipeline {
             }
         }
 
-        stage('Deploy to Kubernetes') {
+        stage('Building Docker Image and Deploy to Kubernetes') {
             steps {
                 sh '''
-                # Load latest image into Minikube
-                minikube image load devopslab2026/my-k8s-application:latest
+                env $(minikube docker-env)
+                docker build -t my-k8s-application:${BUILD_NUMBER}
+                docker tag my-k8s-application:${BUILD_NUMBER} my-k8s-application:latest
 
                 # Apply manifests
                 minikube kubectl -- apply -f k8s/deployment.yaml
