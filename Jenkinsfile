@@ -27,22 +27,23 @@ pipeline {
             }
         }
 
-     stage('Building Docker Image and Deploy to Kubernetes') {
+    stage('Building Docker Image and Deploy to Kubernetes') {
     steps {
         sh '''
-        eval $(minikube -p minikube docker-env)
-        # Build image directly inside Minikube
+        set -e
+
+        echo "Building image inside Minikube..."
         minikube image build -t my-k8s-application:${BUILD_NUMBER} .
 
-        # Tag latest
+        echo "Tagging latest..."
         minikube image tag my-k8s-application:${BUILD_NUMBER} my-k8s-application:latest
 
-        # Apply manifests
+        echo "Applying Kubernetes manifests..."
         minikube kubectl -- apply -f k8s/deployment.yaml
         minikube kubectl -- apply -f k8s/service.yaml
 
-        # Access service
-        minikube service my-k8s-application
+        echo "Checking pods..."
+        minikube kubectl -- get pods
         '''
     }
 }
