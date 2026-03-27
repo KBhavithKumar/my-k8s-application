@@ -27,19 +27,23 @@ pipeline {
             }
         }
 
-        stage('Building Docker Image and Deploy to Kubernetes') {
-            steps {
-                sh '''
-                eval $(minikube docker-env)
-                docker build -t my-k8s-application:${BUILD_NUMBER}
-                docker tag my-k8s-application:${BUILD_NUMBER} my-k8s-application:latest
+     stage('Building Docker Image and Deploy to Kubernetes') {
+    steps {
+        sh '''
+        # Build image directly inside Minikube
+        minikube image build -t my-k8s-application:${BUILD_NUMBER} .
 
-                # Apply manifests
-                minikube kubectl -- apply -f k8s/deployment.yaml
-                minikube kubectl -- apply -f k8s/service.yaml
-                minikube service my-k8s-application
-                '''
-            }
-        }
+        # Tag latest
+        minikube image tag my-k8s-application:${BUILD_NUMBER} my-k8s-application:latest
+
+        # Apply manifests
+        minikube kubectl -- apply -f k8s/deployment.yaml
+        minikube kubectl -- apply -f k8s/service.yaml
+
+        # Access service
+        minikube service my-k8s-application
+        '''
+    }
+}
     }
 }
