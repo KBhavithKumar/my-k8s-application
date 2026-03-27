@@ -30,6 +30,7 @@ pipeline {
      stage('Building Docker Image and Deploy to Kubernetes') {
     steps {
         sh '''
+        eval $(minikube -p minikube docker-env)
         # Build image directly inside Minikube
         minikube image build -t my-k8s-application:${BUILD_NUMBER} .
 
